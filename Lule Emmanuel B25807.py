@@ -14,13 +14,36 @@ class Doctor:
             "That's concerning. We should discuss this further.",
         ]
 
+
+class Patient:
+    def __init__(self):
+        self.answers = []
+
+    def answer_question(self, question):
+        user_response = input(question).lower()
+        return user_response
+
+    def store_response(self, response):
+        self.answers.append(response)
+
+
+class VirtualDoctor:
+    def __init__(self, doctor, patient):
+        self.doctor = doctor
+        self.patient = patient
+
     def talk_to_patient(self):
         print("Welcome to the Virtual Doctor!\n")
-        for i, question in enumerate(self.questions):
-            user_response = input(question).lower()
-            print(self.responses[i])
+        for i, question in enumerate(self.doctor.questions):
+            user_response = self.patient.answer_question(question)
+            self.patient.store_response(self.doctor.responses[i])
+            print(self.doctor.responses[i])
+
         print("\nThank you for using the Virtual Doctor!")
+
 
 if __name__ == "__main__":
     doctor = Doctor()
-    doctor.talk_to_patient()
+    patient = Patient()
+    virtual_doctor = VirtualDoctor(doctor, patient)
+    virtual_doctor.talk_to_patient()
